@@ -1,8 +1,8 @@
 import { TUser } from '../user/user.interface';
 import { User } from '../user/user.model';
 
-const createUserIntoDB = async (user: TUser) => {
-    const newUser = await User.create(user);
+const createUserIntoDB = async (payload: TUser) => {
+    const newUser = await User.create(payload);
     return newUser;
 };
 
