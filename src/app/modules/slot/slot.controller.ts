@@ -56,12 +56,21 @@ const getSlots = catchAsync(async (req, res) => {
         service: serviceId as string,
     });
 
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
-        success: true,
-        message: 'Available slots retrieved successfully',
-        data: result,
-    });
+    if (result?.length > 0) {
+        sendResponse(res, {
+            success: true,
+            statusCode: httpStatus.OK,
+            message: 'Available slots retrieved successfully',
+            data: result,
+        });
+    } else {
+        sendResponse(res, {
+            success: false,
+            statusCode: httpStatus.NOT_FOUND,
+            message: 'No Data Found',
+            data: result,
+        });
+    }
 });
 
 export const SlotController = {

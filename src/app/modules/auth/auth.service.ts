@@ -5,6 +5,7 @@ import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import config from '../../config';
 import { createToken } from './auth.utils';
+import { Types } from 'mongoose';
 
 const createUserIntoDB = async (payload: TUser) => {
     const newUser = await User.create(payload);
@@ -14,6 +15,7 @@ const createUserIntoDB = async (payload: TUser) => {
 const loginUserFromDB = async (payload: TLoginUser) => {
     // checking if the user is exist
     const user = await User.isUserExistsByEmail(payload.email);
+    console.log('USER : ', user);
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -27,9 +29,11 @@ const loginUserFromDB = async (payload: TLoginUser) => {
     const jwtPayload: {
         email: string;
         role: string;
+        id: Types.ObjectId;
     } = {
         email: user.email,
         role: user.role,
+        id: user._id,
     };
 
     const accessToken = createToken(
