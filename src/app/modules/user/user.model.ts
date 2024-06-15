@@ -5,31 +5,34 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new Schema<TUser>(
     {
-        id: {
+        name: {
             type: String,
             required: true,
+            trim: true,
+        },
+        email: {
+            type: String,
+            required: true,
+            trim: true,
             unique: true,
         },
         password: {
             type: String,
             required: true,
         },
-        needsPasswordChange: {
-            type: Boolean,
-            default: true,
+        phone: {
+            type: String,
+            required: true,
         },
         role: {
             type: String,
-            enum: ['admin', 'student', 'faculty'],
+            required: true,
+            enum: ['admin', 'user'],
+            default: 'user',
         },
-        status: {
+        address: {
             type: String,
-            enum: ['in-progress', 'blocked'],
-            default: 'in-progress',
-        },
-        isDeleted: {
-            type: Boolean,
-            default: false,
+            required: true,
         },
     },
     {
@@ -38,10 +41,10 @@ const userSchema = new Schema<TUser>(
 );
 
 userSchema.pre('save', async function (next) {
-    const user = this; // doc
+    // const user = this; // doc
     // hashing password and save into DB
-    user.password = await bcrypt.hash(
-        user.password,
+    this.password = await bcrypt.hash(
+        this.password,
         Number(config.bcrypt_salt_rounds),
     );
     next();
