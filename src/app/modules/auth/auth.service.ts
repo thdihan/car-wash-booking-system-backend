@@ -44,9 +44,15 @@ const loginUserFromDB = async (payload: TLoginUser) => {
         config.jwt_refresh_expires_in as string,
     );
 
+    // Getting User without password.
+    const loggedInUser = await User.findOne({ email: payload.email }).select(
+        '-password',
+    );
+
     return {
         accessToken,
         refreshToken,
+        loggedInUser,
     };
 };
 

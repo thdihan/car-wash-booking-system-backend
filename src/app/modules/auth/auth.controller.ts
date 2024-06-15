@@ -17,11 +17,18 @@ const signup = catchAsync(async (req, res) => {
 const login = catchAsync(async (req, res) => {
     const result = await AuthService.loginUserFromDB(req.body);
 
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
+    // sendResponse(res, {
+    //     statusCode: httpStatus.OK,
+    //     success: true,
+    //     message: 'User logged in successfully',
+    //     data: result,
+    // });
+    res.status(httpStatus.OK).json({
         success: true,
+        statusCode: httpStatus.OK,
         message: 'User logged in successfully',
-        data: result,
+        token: result?.accessToken,
+        data: result?.loggedInUser,
     });
 });
 
