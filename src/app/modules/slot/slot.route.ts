@@ -5,4 +5,4 @@ const router = express.Router();
 
 router.get('/availability', SlotController.getSlots);
 
-export const slotRouter = router;
+export const SlotRouter = router;

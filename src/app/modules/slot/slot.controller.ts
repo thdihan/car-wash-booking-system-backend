@@ -59,7 +59,7 @@ const getSlots = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         success: true,
-        message: 'Slots fetched successfully',
+        message: 'Available slots retrieved successfully',
         data: result,
     });
 });
