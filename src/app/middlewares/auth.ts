@@ -18,7 +18,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
             if (!tokenWithBearer) {
                 throw new AppError(
                     httpStatus.UNAUTHORIZED,
-                    'You are not authorized!',
+                    'You have no access to this route',
                 );
             }
             const token = tokenWithBearer.split(' ')[1];
@@ -43,7 +43,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
             if (requiredRoles && !requiredRoles.includes(role)) {
                 throw new AppError(
                     httpStatus.UNAUTHORIZED,
-                    'You are not authorized!',
+                    'You have no access to this route',
                 );
             }
 

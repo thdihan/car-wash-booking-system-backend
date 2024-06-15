@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { USER_ROLE } from './user.constant';
 
 export interface TUser {
@@ -11,13 +11,15 @@ export interface TUser {
     address: string;
 }
 
+export type TUserWithId = TUser & { _id: Types.ObjectId };
+
 export interface UserModel extends Model<TUser> {
     //instance methods for checking if the user exist
-    isUserExistsByEmail(email: string): Promise<TUser>;
+    isUserExistsByEmail(email: string): Promise<Partial<TUserWithId>>;
     //instance methods for checking if passwords are matched
     isPasswordMatched(
-        plainTextPassword: string,
-        hashedPassword: string,
+        plainTextPassword?: string,
+        hashedPassword?: string,
     ): Promise<boolean>;
     isJWTIssuedBeforePasswordChanged(
         passwordChangedTimestamp: Date,

@@ -1,6 +1,6 @@
 import httpStatus from 'http-status';
 import AppError from '../../utils/appError';
-import { TUser } from '../user/user.interface';
+import { TUser, TUserWithId } from '../user/user.interface';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import config from '../../config';
@@ -14,8 +14,11 @@ const createUserIntoDB = async (payload: TUser) => {
 
 const loginUserFromDB = async (payload: TLoginUser) => {
     // checking if the user is exist
-    const user = await User.isUserExistsByEmail(payload.email);
-    console.log('USER : ', user);
+
+    const user: Partial<TUserWithId> = await User.isUserExistsByEmail(
+        payload.email,
+    );
+    // console.log('USER : ', user);
 
     if (!user) {
         throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -25,15 +28,15 @@ const loginUserFromDB = async (payload: TLoginUser) => {
         throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
     //create token and sent to the  client
-
-    const jwtPayload: {
-        email: string;
-        role: string;
-        id: Types.ObjectId;
-    } = {
+    type TJwtPayload = {
+        email?: string;
+        role?: string;
+        id?: Types.ObjectId;
+    };
+    const jwtPayload: TJwtPayload = {
         email: user.email,
         role: user.role,
-        id: user._id,
+        id: user?._id,
     };
 
     const accessToken = createToken(
