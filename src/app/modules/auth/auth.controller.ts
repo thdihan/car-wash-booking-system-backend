@@ -15,6 +15,7 @@ const signup = catchAsync(async (req, res) => {
 });
 
 const login = catchAsync(async (req, res) => {
+    console.log('req.body', req.body);
     const result = await AuthService.loginUserFromDB(req.body);
 
     res.status(httpStatus.OK).json({
