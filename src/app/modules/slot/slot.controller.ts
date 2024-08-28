@@ -10,6 +10,8 @@ import AppError from '../../utils/appError';
 const createSlots = catchAsync(async (req, res) => {
     const { service, date, startTime, endTime } = req.body;
 
+    console.log('req.body', req.body);
+
     // Checking if the services is deleted or not
     const serviceInfo = await ServiceService.getServiceByIdFromDB(service);
     if (serviceInfo?.isDeleted) {
@@ -73,7 +75,22 @@ const getSlots = catchAsync(async (req, res) => {
     }
 });
 
+const updateSlot = catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const payload = req.body;
+
+    const result = await SlotService.updateSlotsFromDB(id, payload);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'Slot updated successfully',
+        data: result,
+    });
+});
+
 export const SlotController = {
     createSlots,
     getSlots,
+    updateSlot,
 };

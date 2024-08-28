@@ -18,7 +18,16 @@ const getSlotsFromDB = async (payload: TSlotQuery) => {
     return result;
 };
 
+const updateSlotsFromDB = async (id: string, payload: TSlot) => {
+    const result = await Slot.findByIdAndUpdate(id, payload, {
+        new: true,
+    });
+
+    return result;
+};
+
 export const SlotService = {
     createSlotsIntoDB,
     getSlotsFromDB,
+    updateSlotsFromDB,
 };
