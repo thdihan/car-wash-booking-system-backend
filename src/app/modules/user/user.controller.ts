@@ -16,6 +16,22 @@ const getPersonalData = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const updateProfile = catchAsync(async (req: Request, res: Response) => {
+    const { id, payload } = req.body;
+
+    console.log('id', id);
+    console.log('payload', payload);
+    const result = await UserService.updateProfileIntoDB({ id, payload });
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'Profile updated successfully',
+        data: result,
+    });
+});
+
 export const UserController = {
     getPersonalData,
+    updateProfile,
 };

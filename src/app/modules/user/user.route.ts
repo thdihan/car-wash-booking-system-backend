@@ -12,4 +12,10 @@ router.get(
     UserController.getPersonalData,
 );
 
+router.put(
+    '/',
+    auth(USER_ROLE.admin, USER_ROLE.user),
+    UserController.updateProfile,
+);
+
 export const UserRoutes = router;
