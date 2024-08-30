@@ -18,11 +18,13 @@ const bookingSchema = new Schema<TBooking>(
             ref: 'Service',
             required: true,
         },
-        slotId: {
-            type: Schema.Types.ObjectId,
-            ref: 'Slot',
-            required: true,
-        },
+        slotId: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'Slot',
+                required: true,
+            },
+        ],
         vehicleType: {
             type: String,
             enum: VehicleType,

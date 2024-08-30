@@ -10,10 +10,21 @@ const createBookingIntoDB = async (payload: TBooking) => {
         result = await BookingModel.create(payload);
 
         const slotId = result?.slotId;
-        await Slot.findOneAndUpdate(
-            { _id: slotId },
-            { isBooked: 'booked' },
-            { new: true },
+
+        // await Slot.findOneAndUpdate(
+        //     { _id: slotId },
+        //     { isBooked: 'booked' },
+        //     { new: true },
+        // );
+
+        await Promise.all(
+            slotId.map((slotId) =>
+                Slot.findOneAndUpdate(
+                    { _id: slotId },
+                    { isBooked: 'booked' },
+                    { new: true },
+                ),
+            ),
         );
         await session.commitTransaction();
         session.endSession();
