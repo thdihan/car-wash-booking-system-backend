@@ -12,6 +12,8 @@ router.get(
     UserController.getPersonalData,
 );
 
+router.get('/all', auth(USER_ROLE.admin), UserController.getAllUsers);
+
 router.put(
     '/',
     auth(USER_ROLE.admin, USER_ROLE.user),

@@ -19,8 +19,6 @@ const getPersonalData = catchAsync(async (req: Request, res: Response) => {
 const updateProfile = catchAsync(async (req: Request, res: Response) => {
     const { id, payload } = req.body;
 
-    console.log('id', id);
-    console.log('payload', payload);
     const result = await UserService.updateProfileIntoDB({ id, payload });
 
     sendResponse(res, {
@@ -31,7 +29,19 @@ const updateProfile = catchAsync(async (req: Request, res: Response) => {
     });
 });
 
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
+    const result = await UserService.getAllUsersFromDB();
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: 'All users retrieved successfully',
+        data: result,
+    });
+});
+
 export const UserController = {
     getPersonalData,
     updateProfile,
+    getAllUsers,
 };

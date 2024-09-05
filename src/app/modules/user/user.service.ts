@@ -17,7 +17,18 @@ const updateProfileIntoDB = async ({
     return result;
 };
 
+const getAllUsersFromDB = async () => {
+    const users = await User.find();
+
+    const usersWithoutPassword = users.map((user) => {
+        const { password, ...rest } = user.toObject();
+        return rest;
+    });
+    return usersWithoutPassword;
+};
+
 export const UserService = {
     getPersonalDataFromDB,
     updateProfileIntoDB,
+    getAllUsersFromDB,
 };
