@@ -12,7 +12,7 @@ const initiatePayment = async ({
         store_id: config.store_id,
         signature_key: config.signature_key,
         tran_id: txId,
-        success_url: `http://localhost:5173/success?txid=${txId}`,
+        success_url: `https://car-wash-booking-system-client-five.vercel.app/success?txid=${txId}`,
         fail_url: 'http://www.merchantdomain.com/faile dpage.html',
         cancel_url: 'http://www.merchantdomain.com/can cellpage.html',
         amount: amount,
