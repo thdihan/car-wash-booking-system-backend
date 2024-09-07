@@ -1,3 +1,5 @@
+import { PaymentUtils } from '../payment/payment.utils';
+import { Service } from '../service/service.model';
 import { Slot } from '../slot/slot.model';
 import { TBooking } from './booking.interface';
 import { BookingModel } from './booking.model';
@@ -10,12 +12,6 @@ const createBookingIntoDB = async (payload: TBooking) => {
         result = await BookingModel.create(payload);
 
         const slotId = result?.slotId;
-
-        // await Slot.findOneAndUpdate(
-        //     { _id: slotId },
-        //     { isBooked: 'booked' },
-        //     { new: true },
-        // );
 
         await Promise.all(
             slotId.map((slotId) =>
@@ -41,8 +37,19 @@ const createBookingIntoDB = async (payload: TBooking) => {
     );
     result = await result.populate(
         'slotId',
-        '_id service date startTime endTime isBooked',
+        '_id service date startTime endTime ServiceModelisBooked',
     );
+    const serviceInfo = await Service.findById(result.serviceId);
+    const txId = `${Date.now()}`;
+    const paymentInfo = await PaymentUtils.initiatePayment({
+        amount: (
+            (serviceInfo?.price as number) * payload.slotId.length
+        ).toString(),
+        txId,
+    });
+
+    result = { bookingData: result, paymentInfo };
+    console.log('Result: ', result);
     return result;
 };
 
