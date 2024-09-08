@@ -17,12 +17,15 @@ JWT_ACCESS_SECRET=
 JWT_REFRESH_SECRET=
 JWT_ACCESS_EXPIRES_IN=
 JWT_REFRESH_EXPIRES_IN=
+STORE_ID=
+SIGNATURE_KEY =
+PAYMENT_URL =
 ```
 
-Then run this code to install all node packages `npm i`. If everything is ok then you are ready to run.
-Just run this command `npm start:dev` to run in development mode or if you want production mode then build first then run with these command :
+Then run this code to install all node packages `pnpm i`. If everything is ok then you are ready to run.
+Just run this command `pnpm start:dev` to run in development mode or if you want production mode then build first then run with these command :
 
 ```js
-npm run build
-npm run start:prod
+pnpm run build
+pnpm run start:prod
 ```

@@ -12,9 +12,10 @@ const initiatePayment = async ({
         store_id: config.store_id,
         signature_key: config.signature_key,
         tran_id: txId,
-        success_url: `https://car-wash-booking-system-client-five.vercel.app/success?txid=${txId}`,
-        fail_url: 'http://www.merchantdomain.com/faile dpage.html',
-        cancel_url: 'http://www.merchantdomain.com/can cellpage.html',
+        success_url: `https://car-wash-booking-system-backend-five.vercel.app/api/payment/success?txid=${txId}`,
+        fail_url:
+            'https://car-wash-booking-system-backend-five.vercel.app/api/payment/fail',
+        cancel_url: 'https://car-wash-booking-system-client-five.vercel.app',
         amount: amount,
         currency: 'BDT',
         desc: 'Merchant Registration Payment',
